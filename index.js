@@ -39,15 +39,12 @@ class NatureRemoCloudAircon {
   }
 
   _updateTargetAppliance(params, callback) {
-    this.log(`making request for update: ${JSON.stringify(params)}`);
     this.requestParams = Object.assign({}, this.requestParams, params);
 
     if (!this.requestPromise) {
       this.requestPromise = new Promise((resolve, reject) => {
         setTimeout(() => {
           this.requestParams = Object.assign({'button': this.record.settings.button}, this.requestParams);
-
-          this.log(`request to server: ${JSON.stringify(this.requestParams)}`);
 
           const options = Object.assign({}, DEFAULT_REQUEST_OPTIONS, {
             uri: `/appliances/${this.record.id}/aircon_settings`,
@@ -56,7 +53,6 @@ class NatureRemoCloudAircon {
             form: this.requestParams
           });
           request(options, (error, response, body) => {
-            this.log('got reponse for update');
             if (error || body === null) {
               this.log(`failed to update: ${error}, ${body}`);
               reject('failed to update');
@@ -92,7 +88,6 @@ class NatureRemoCloudAircon {
   }
 
   _refreshTargetAppliance() {
-    this.log('refreshing target appliance record');
     const options = Object.assign({}, DEFAULT_REQUEST_OPTIONS, {
       uri: '/appliances',
       headers: {'authorization': `Bearer ${this.accessToken}`}
@@ -127,7 +122,6 @@ class NatureRemoCloudAircon {
         })[0];
       }
       if (appliance) {
-        this.log(`Target aircon ID: ${appliance.id}`);
         this.record = appliance;
         this.applianceId = appliance.id;  // persist discovered ID
         this._refreshTemperature();
@@ -145,7 +139,6 @@ class NatureRemoCloudAircon {
       return;
     }
 
-    this.log('refreshing temperature record');
     const options = Object.assign({}, DEFAULT_REQUEST_OPTIONS, {
       uri: '/devices',
       headers: {'authorization': `Bearer ${this.accessToken}`}
@@ -170,7 +163,6 @@ class NatureRemoCloudAircon {
         return dev.id === this.record.device.id;
       });
       this.temperature = device.newest_events.te.val;
-      this.log(`Temperature: ${this.temperature}`);
       this._notifyLatestValues();
     });
   }
@@ -185,8 +177,6 @@ class NatureRemoCloudAircon {
       minValue: this.getMinTargetTemperature(),
       minStep: this.getTargetTemperatureStep(),
     };
-
-    this.log(`notifying TargetTemperature props: ${JSON.stringify(props)}`);
 
     // We cannot set these props in getServices() for the reasons:
     // * getServices() is invoked at the initialization of this accessary.
@@ -207,7 +197,6 @@ class NatureRemoCloudAircon {
     }
 
     const settings = this.record.settings;
-    this.log(`notifying values: ${JSON.stringify(settings)}`);
     aircon
       .getCharacteristic(hap.Characteristic.CurrentHeatingCoolingState)
       .updateValue(this._translateHeatingCoolingState(settings));
