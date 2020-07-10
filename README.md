@@ -1,6 +1,9 @@
-# homebridge-nature-remo-cloud-aircon
+# homebridge-nremo-aircon
 
-Homebridge Plug-in for Air Conditioner Managed by Nature Remo
+Homebridge Plug-in for Air Conditioner Managed by Nature Remo.
+
+__This is a personal fork not intended for general use, please use the upstream
+https://github.com/kmaehashi/homebridge-nature-remo-aircon instead.__
 
 Example:
 
@@ -20,6 +23,6 @@ Example:
 ...
 ```
 
-* Please get your access token at https://home.nature.global/ and set it to `access_token`.
+* Please get your access token at https://home.nature.global/ and set it to `accessToken`.
 * `applianceId` can be left blank if you only have one aircon.
 * `useDryForCool` can make map cool mode to dry mode in Home.

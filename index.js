@@ -10,13 +10,13 @@ let hap;
 
 module.exports = homebridge => {
   hap = homebridge.hap;
-  homebridge.registerAccessory('homebridge-nature-remo-cloud-aircon', 'NatureRemoCloudAircon', NatureRemoCloudAircon);
+  homebridge.registerAccessory('homebridge-nature-remo-aircon', 'NatureRemoAircon', NatureRemoAircon);
 };
 
-class NatureRemoCloudAircon {
+class NatureRemoAircon {
 
   constructor(log, config) {
-    log('NatureRemoCloudAircon init');
+    log('NatureRemoAircon init');
 
     this.log = log;
     this.useDryForCool = config.useDryForCool || false;
@@ -378,4 +378,4 @@ class NatureRemoCloudAircon {
     return allTemperatures;
   }
 
-}  // class NatureRemoCloudAircon
+}  // class NatureRemoAircon
